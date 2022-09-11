@@ -16,5 +16,6 @@ namespace RentACarProject.Domain.Entites
         public string VitesTuru { get; set; }
         public float SaatUcreti { get; set; }
         public bool Durum { get; set; }
+        public virtual Sube Sube { get; set; }
     }
 }

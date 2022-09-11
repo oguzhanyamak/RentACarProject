@@ -16,5 +16,6 @@ namespace RentACarProject.Domain.Entites
         public string Cadde { get; set; }
         public string AdresDetay { get; set; }
         public bool Durum { get; set; }
+        public virtual ICollection<KullaniciSiparis> KullaniciSiparis { get; set; }
     }
 }

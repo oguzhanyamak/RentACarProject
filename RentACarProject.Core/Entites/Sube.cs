@@ -13,5 +13,7 @@ namespace RentACarProject.Domain.Entites
         public string Sehir { get; set; }
         public string Cadde { get; set; }
         public string AdresDetay { get; set; }
+        public virtual ICollection<Arac> Araclar { get; set; }
+        public virtual ICollection<Siparis> Siparisler { get; set; }
     }
 }

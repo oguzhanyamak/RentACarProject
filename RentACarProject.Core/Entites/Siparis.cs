@@ -13,5 +13,7 @@ namespace RentACarProject.Domain.Entites
         public float ToplamUcret { get; set; }
         public Guid TeslimSubeId { get; set; }
         public bool Durum { get; set; }
+        public virtual Sube Sube { get; set; }
+        public virtual ICollection<KullaniciSiparis> KullaniciSiparis { get; set; }
     }
 }
