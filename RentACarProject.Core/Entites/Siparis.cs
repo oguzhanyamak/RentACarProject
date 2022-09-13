@@ -8,6 +8,10 @@ namespace RentACarProject.Domain.Entites
 {
     public class Siparis : BaseEntity
     {
+        public Siparis()
+        {
+            KullaniciSiparis = new HashSet<KullaniciSiparis>();
+        }
         public DateTime AlisZamani { get; set; }
         public DateTime TeslimZamani { get; set; }
         public float ToplamUcret { get; set; }

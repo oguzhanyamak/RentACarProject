@@ -11,7 +11,7 @@ namespace RentACarProject.Persistence.Repositories.Siparis
 {
     public class SiparisReadRepository : ReadRepository<Domain.Entites.Siparis>, ISiparisReadRepository
     {
-        public SiparisReadRpository(RentACarDbContext context) : base(context)
+        public SiparisReadRepository(RentACarDbContext context) : base(context)
         {
         }
     }

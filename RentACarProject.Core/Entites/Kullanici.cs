@@ -8,6 +8,10 @@ namespace RentACarProject.Domain.Entites
 {
     public class Kullanici : BaseEntity
     {
+        public Kullanici()
+        {
+            KullaniciSiparis = new HashSet<KullaniciSiparis>();
+        }
         public string Ad { get; set; }
         public string Soyad { get; set; }
         public string TC { get; set; }

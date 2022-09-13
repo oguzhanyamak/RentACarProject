@@ -8,6 +8,11 @@ namespace RentACarProject.Domain.Entites
 {
     public class Sube : BaseEntity
     {
+        public Sube()
+        {
+            Araclar = new HashSet<Arac>();
+            Siparisler = new HashSet<Siparis>();
+        }
         public string SubeAdi { get; set; }
         public string Ulke { get; set; }
         public string Sehir { get; set; }

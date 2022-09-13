@@ -11,21 +11,16 @@ namespace RentACarProject.Persistence.Context
 {
     public class RentACarDbContext : DbContext
     {
+        public RentACarDbContext(DbContextOptions options): base(options)
+        {
+        }
+
         public DbSet<Arac> Araclar { get; set; }
         public DbSet<Kullanici> Kullanicilar { get; set; }
         public DbSet<Siparis> Siparisler { get; set; }
         public DbSet<Sube> Subeler { get; set; }
         public DbSet<KullaniciSiparis> KullaniciSiparis { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connStr = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=rentCar;Integrated Security=True;";
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(connStr);
-            }
-
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
