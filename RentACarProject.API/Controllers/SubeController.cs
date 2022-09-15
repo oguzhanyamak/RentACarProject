@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RentACarProject.Application.Features.Commands.Sube.CreateSube;
 using RentACarProject.Application.Repositories.Sube;
+using RentACarProject.Application.ViewModel;
 using RentACarProject.Domain.Entites;
 
 namespace RentACarProject.API.Controllers
@@ -9,32 +13,22 @@ namespace RentACarProject.API.Controllers
     [ApiController]
     public class SubeController : ControllerBase
     {
-        private readonly ISubeReadAsyncRepository _subeReadAsyncRepository;
-        private readonly ISubeReadRepository _subeReadRepository;
-        private readonly ISubeWriteAsyncRepository _subeWriteAsyncRepository;
-        private readonly ISubeWriteRepository _subeWriteRepository;
 
-        public SubeController(ISubeReadAsyncRepository subeReadAsyncRepository, ISubeWriteAsyncRepository subeWriteAsyncRepository, ISubeWriteRepository subeWriteRepository, ISubeReadRepository subeReadRepository)
+        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+
+        public SubeController( IMapper mapper, IMediator mediator)
         {
-            _subeReadAsyncRepository = subeReadAsyncRepository;
-            _subeWriteAsyncRepository = subeWriteAsyncRepository;
-            _subeWriteRepository = subeWriteRepository;
-            _subeReadRepository = subeReadRepository;
+            _mapper = mapper;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Sube sube)
+        public async Task<IActionResult> Post(SubeEkleVM subeEkleVM)
         {
-            await _subeWriteAsyncRepository.AddAsync(sube);
-            await _subeWriteAsyncRepository.SaveAsync();
-            return Ok();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var values = _subeReadRepository.GetAll();
-            return Ok(values);
+            CreateSubeCommandRequest commandRequest = _mapper.Map<CreateSubeCommandRequest>(subeEkleVM);
+            CreateSubeCommandResponse createSubeCommandResponse = await _mediator.Send(commandRequest);
+            return Ok(createSubeCommandResponse.result);
         }
 
     }
