@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using RentACarProject.Application.Features.Commands.Kullanici.CreateKullanici;
-using RentACarProject.Application.ViewModel;
+using RentACarProject.Application.ViewModel.Kullanici;
 using RentACarProject.Domain.Entites;
 using System;
 using System.Collections.Generic;

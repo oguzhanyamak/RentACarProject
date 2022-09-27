@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RentACarProject.Persistence.Migrations
 {
-    public partial class mig_1 : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,18 +80,18 @@ namespace RentACarProject.Persistence.Migrations
                     ToplamUcret = table.Column<float>(type: "real", nullable: false),
                     TeslimSubeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Durum = table.Column<bool>(type: "bit", nullable: false),
-                    AracId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    SubeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    aracId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Siparisler", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Siparisler_Araclar_AracId",
-                        column: x => x.AracId,
+                        name: "FK_Siparisler_Araclar_aracId",
+                        column: x => x.aracId,
                         principalTable: "Araclar",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Siparisler_Subeler_SubeId",
                         column: x => x.SubeId,
@@ -135,9 +135,9 @@ namespace RentACarProject.Persistence.Migrations
                 column: "KullaniciId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Siparisler_AracId",
+                name: "IX_Siparisler_aracId",
                 table: "Siparisler",
-                column: "AracId");
+                column: "aracId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Siparisler_SubeId",

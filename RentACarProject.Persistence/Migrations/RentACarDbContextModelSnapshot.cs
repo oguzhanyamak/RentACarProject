@@ -134,9 +134,6 @@ namespace RentACarProject.Persistence.Migrations
                     b.Property<DateTime>("AlisZamani")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("AracId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("Durum")
                         .HasColumnType("bit");
 
@@ -152,11 +149,14 @@ namespace RentACarProject.Persistence.Migrations
                     b.Property<float>("ToplamUcret")
                         .HasColumnType("real");
 
+                    b.Property<Guid>("aracId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AracId");
-
                     b.HasIndex("SubeId");
+
+                    b.HasIndex("aracId");
 
                     b.ToTable("Siparisler");
                 });
@@ -224,26 +224,21 @@ namespace RentACarProject.Persistence.Migrations
 
             modelBuilder.Entity("RentACarProject.Domain.Entites.Siparis", b =>
                 {
-                    b.HasOne("RentACarProject.Domain.Entites.Arac", "Arac")
-                        .WithMany("Siparisler")
-                        .HasForeignKey("AracId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("RentACarProject.Domain.Entites.Sube", "Sube")
                         .WithMany("Siparisler")
                         .HasForeignKey("SubeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Arac");
+                    b.HasOne("RentACarProject.Domain.Entites.Arac", "arac")
+                        .WithMany()
+                        .HasForeignKey("aracId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Sube");
-                });
 
-            modelBuilder.Entity("RentACarProject.Domain.Entites.Arac", b =>
-                {
-                    b.Navigation("Siparisler");
+                    b.Navigation("arac");
                 });
 
             modelBuilder.Entity("RentACarProject.Domain.Entites.Kullanici", b =>

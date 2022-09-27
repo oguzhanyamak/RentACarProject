@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Kullanici.CreateKullanici;
-using RentACarProject.Application.ViewModel;
+using RentACarProject.Application.ViewModel.Kullanici;
 
 namespace RentACarProject.API.Controllers
 {

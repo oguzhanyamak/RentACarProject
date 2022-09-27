@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Commands\Arac\DeleteArac\" />
     <Folder Include="Features\Commands\Sube\RemoveSube\" />
-    <Folder Include="Features\Commands\Sube\UpdateSube\" />
   </ItemGroup>
 
 </Project>

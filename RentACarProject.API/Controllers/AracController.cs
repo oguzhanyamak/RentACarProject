@@ -3,9 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Arac.CreateArac;
+using RentACarProject.Application.Features.Commands.Arac.UpdateArac;
 using RentACarProject.Application.Repositories.Arac;
 using RentACarProject.Application.Repositories.Sube;
-using RentACarProject.Application.ViewModel;
+using RentACarProject.Application.ViewModel.Arac;
 using RentACarProject.Domain.Entites;
 
 namespace RentACarProject.API.Controllers
@@ -29,6 +30,14 @@ namespace RentACarProject.API.Controllers
             CreateAracCommandRequest request = _mapper.Map<CreateAracCommandRequest>(parac);
             CreateAracCommandResponse response = await _mediatR.Send(request);
             return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(AracGuncelleVM guncelleVM)
+        {
+            UpdateAracCommandRequest request = _mapper.Map<UpdateAracCommandRequest>(guncelleVM);
+            UpdateAracCommandResponse response = await _mediatR.Send(request);
+            return Ok(response.result);
         }
     }
 }

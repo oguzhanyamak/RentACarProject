@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RentACarProject.Application.Features.Commands.Sube.CreateSube;
-using RentACarProject.Application.ViewModel;
+using RentACarProject.Application.Features.Commands.Sube.UpdateSube;
+using RentACarProject.Application.ViewModel.Sube;
 using RentACarProject.Domain.Entites;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace RentACarProject.Application.Mapper
                 .ForMember(i => i.Cadde, o => o.MapFrom(s => s.Cadde))
                 .ForMember(i => i.AdresDetay, o => o.MapFrom(s => s.Detay)).ReverseMap();
 
+            CreateMap<SubeGuncelleVM, UpdateSubeCommandRequest>().ReverseMap();
+            CreateMap<UpdateSubeCommandRequest, Sube>();
         }
     }
 }

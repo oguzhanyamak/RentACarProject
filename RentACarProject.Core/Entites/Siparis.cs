@@ -18,6 +18,7 @@ namespace RentACarProject.Domain.Entites
         public Guid TeslimSubeId { get; set; }
         public bool Durum { get; set; }
         public virtual Sube Sube { get; set; }
+        public virtual Arac arac { get; set; }
         public virtual ICollection<KullaniciSiparis> KullaniciSiparis { get; set; }
     }
 }

@@ -3,8 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Sube.CreateSube;
+using RentACarProject.Application.Features.Commands.Sube.UpdateSube;
 using RentACarProject.Application.Repositories.Sube;
-using RentACarProject.Application.ViewModel;
+using RentACarProject.Application.ViewModel.Sube;
 using RentACarProject.Domain.Entites;
 
 namespace RentACarProject.API.Controllers
@@ -29,6 +30,14 @@ namespace RentACarProject.API.Controllers
             CreateSubeCommandRequest commandRequest = _mapper.Map<CreateSubeCommandRequest>(subeEkleVM);
             CreateSubeCommandResponse createSubeCommandResponse = await _mediator.Send(commandRequest);
             return Ok(createSubeCommandResponse.result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(SubeGuncelleVM subeGuncelleVM)
+        {
+            UpdateSubeCommandRequest updateSube = _mapper.Map<UpdateSubeCommandRequest>(subeGuncelleVM);
+            UpdateSubeCommandResponse response = await _mediator.Send(updateSube);
+            return Ok(response);
         }
 
     }
