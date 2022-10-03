@@ -8,5 +8,6 @@ namespace RentACarProject.Application.Repositories.Kullanici
 {
     public interface IKullaniciReadRepository : IReadRepository<Domain.Entites.Kullanici>
     {
+        public object KullaniciSiparisleri(Guid KullaniciId);
     }
 }

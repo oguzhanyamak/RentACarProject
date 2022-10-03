@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Sube.CreateSube;
 using RentACarProject.Application.Features.Commands.Sube.UpdateSube;
+using RentACarProject.Application.Features.Queries.Sube.GetAll;
+using RentACarProject.Application.Features.Queries.Sube.GetAracs;
+using RentACarProject.Application.Features.Queries.Sube.GetById;
 using RentACarProject.Application.Repositories.Sube;
 using RentACarProject.Application.ViewModel.Sube;
 using RentACarProject.Domain.Entites;
 
 namespace RentACarProject.API.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
     public class SubeController : ControllerBase
     {
@@ -23,22 +26,47 @@ namespace RentACarProject.API.Controllers
             _mapper = mapper;
             _mediator = mediator;
         }
-
+        [Route("Subeler")]
         [HttpPost]
-        public async Task<IActionResult> Post(SubeEkleVM subeEkleVM)
+        public async Task<IActionResult> Post([FromBody] SubeEkleVM subeEkleVM)
         {
             CreateSubeCommandRequest commandRequest = _mapper.Map<CreateSubeCommandRequest>(subeEkleVM);
             CreateSubeCommandResponse createSubeCommandResponse = await _mediator.Send(commandRequest);
             return Ok(createSubeCommandResponse.result);
         }
-
+        [Route("Subeler")]
         [HttpPut]
-        public async Task<IActionResult> Put(SubeGuncelleVM subeGuncelleVM)
+        public async Task<IActionResult> Put([FromBody]SubeGuncelleVM subeGuncelleVM)
         {
             UpdateSubeCommandRequest updateSube = _mapper.Map<UpdateSubeCommandRequest>(subeGuncelleVM);
             UpdateSubeCommandResponse response = await _mediator.Send(updateSube);
             return Ok(response);
         }
+        [Route("Subeler")]
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            GetAllSubeQueryRequest queryRequest = new();
+            GetAllSubeQueryResponse response =  await _mediator.Send(queryRequest);
+            return Ok(response);
+        }
 
+        [Route("Subeler/{SubeId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetById(Guid SubeId)
+        {
+            GetSubeByIdQueryRequest getByIdSube = new() {SubeId = SubeId };
+            GetSubeByIdQueryResponse response = await _mediator.Send(getByIdSube);
+            return Ok(response);
+
+        }
+        [Route("Subeler/{SubeId}/Araclar")]
+        [HttpGet]
+        public async Task<IActionResult> GetAraclar(Guid SubeId) 
+        {
+            GetAracsQueryRequest queryRequest = new() { SubeId = SubeId };
+            GetAracsQueryResponse queryResponse =  await _mediator.Send(queryRequest);
+            return Ok(queryResponse);
+        }
     }
 }

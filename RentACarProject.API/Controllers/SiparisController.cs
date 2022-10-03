@@ -7,7 +7,7 @@ using RentACarProject.Application.ViewModel.Siparis;
 
 namespace RentACarProject.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Siparisler")]
     [ApiController]
     public class SiparisController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace RentACarProject.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> post(SiparisVerVM siparisVerVM)
+        public async Task<IActionResult> Post(SiparisVerVM siparisVerVM)
         {
             CreateSiparisCommandRequest createSiparisCommandRequest = _mapper.Map<CreateSiparisCommandRequest>(siparisVerVM);
             CreateSiparisCommandResponse response = await _mediator.Send(createSiparisCommandRequest);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RentACarProject.Application.Features.Commands.Sube.CreateSube;
 using RentACarProject.Application.Features.Commands.Sube.UpdateSube;
+using RentACarProject.Application.Features.Queries.Sube.GetById;
 using RentACarProject.Application.ViewModel.Sube;
 using RentACarProject.Domain.Entites;
 using System;
