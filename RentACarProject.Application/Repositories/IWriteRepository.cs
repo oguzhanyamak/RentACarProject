@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RentACarProject.Application.Repositories
 {
     public interface IWriteRepository<T> : IRepository<T> where T : BaseEntity
-    {
+    { 
         bool Add(T Entity);
         bool AddRange(List<T> datas);
         bool Remove(T model);

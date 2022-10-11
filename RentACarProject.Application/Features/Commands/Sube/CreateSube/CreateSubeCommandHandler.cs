@@ -27,10 +27,12 @@ namespace RentACarProject.Application.Features.Commands.Sube.CreateSube
             var sube = _mapper.Map<Domain.Entites.Sube>(request);
             sube.Id = Guid.NewGuid();
             bool res = await _subeWriteAsyncRepository.AddAsync(sube);
-            await _subeWriteAsyncRepository.SaveAsync();
+            int res1 = await _subeWriteAsyncRepository.SaveAsync();
+            res = (res == true && res1 == 1) ? true:false;
             return new()
             {
-                result = res
+                result = res,
+                retUrl = sube.Id.ToString()
             };
         }
     }

@@ -15,7 +15,12 @@ namespace RentACarProject.Domain.Entites
         public string Plaka { get; set; }
         public string VitesTuru { get; set; }
         public float SaatUcreti { get; set; }
-        public bool Durum { get; set; }
+
+        //Şuan Bekliyor mu ?
+        public bool OzelDurum { get; set; } = true;
+
+        //Arac çalışır durumda mı ? Hurda mı
+        public bool GenelDurum { get; set; } = true;
         public virtual Sube Sube { get; set; }
     }
 }

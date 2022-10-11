@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using RentACarProject.Application.Repositories.Kullanici;
+using RentACarProject.Application.Abstraction.Services;
+using RentACarProject.Application.ViewModel.Kullanici;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +13,36 @@ namespace RentACarProject.Application.Features.Commands.Kullanici.CreateKullanic
     public class CreateKullaniciCommandHandler : IRequestHandler<CreateKullaniciCommandRequest, CreateKullaniciCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IKullaniciWriteAsyncRepository _kullaniciWriteAsyncRepository;
-        public CreateKullaniciCommandHandler(IMapper mapper, IKullaniciWriteAsyncRepository kullaniciWriteAsyncRepository)
+        private readonly IUserService _userService;
+
+        public CreateKullaniciCommandHandler(IMapper mapper, IUserService userService)
         {
             _mapper = mapper;
-            _kullaniciWriteAsyncRepository = kullaniciWriteAsyncRepository;
+            _userService = userService;
         }
         public async Task<CreateKullaniciCommandResponse> Handle(CreateKullaniciCommandRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entites.Kullanici kullanici = _mapper.Map<Domain.Entites.Kullanici>(request);
-            kullanici.Id = Guid.NewGuid();
-            bool res = await _kullaniciWriteAsyncRepository.AddAsync(kullanici);
-            await _kullaniciWriteAsyncRepository.SaveAsync();
-            return new()
+            KullaniciEkleVM vm = _mapper.Map<KullaniciEkleVM>(request);
+            var response = await _userService.CreateAsync(vm);
+            if (response.Succeeded)
             {
-                result = res
-            };
+                return new()
+                {
+                    result = true
+                };
+            }
+            else
+            {
+                string message = "";
+                foreach (var error in response.Errors)
+                    message += $"{error.Code} - {error.Description}";
+
+                return new()
+                {
+                    result = message
+                };
+            }
+
         }
     }
 }

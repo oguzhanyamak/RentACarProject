@@ -44,7 +44,7 @@ namespace RentACarProject.Application.Features.Commands.Siparis.Create
                 KullaniciSiparis = new HashSet<KullaniciSiparis>()
                 {
 
-                    new() { KullaniciId = request.KullaniciId, SiparisId =  id}
+                    new() { KullaniciId = request.KullaniciId.ToString(), SiparisId =  id}
                 },
 
 

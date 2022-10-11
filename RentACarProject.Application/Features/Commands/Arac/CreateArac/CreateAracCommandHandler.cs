@@ -33,10 +33,12 @@ namespace RentACarProject.Application.Features.Commands.Arac.CreateArac
             arac.Sube = sube;
             arac.Id = Guid.NewGuid();
             bool res = await _aracWriteAsyncRepository.AddAsync(arac);
-            await _aracWriteAsyncRepository.SaveAsync();
+            int res1 = await _aracWriteAsyncRepository.SaveAsync();
+            res = (res == true && res1 == 1) ? true : false;
             return new()
             {
-                result = res
+                result = res,
+                objectId = arac.Id.ToString()
             };
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RentACarProject.Application.Features.Commands.Arac.CreateArac;
+using RentACarProject.Application.Features.Commands.Arac.DeleteArac;
 using RentACarProject.Application.Features.Commands.Arac.UpdateArac;
 using RentACarProject.Application.Repositories.Arac;
 using RentACarProject.Application.Repositories.Sube;
@@ -31,22 +32,45 @@ namespace RentACarProject.API.Controllers
         }
         [Route("Araclar")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]AracEkleVM parac)
+        public async Task<IActionResult> Post([FromBody] AracEkleVM parac)
         {
             CreateAracCommandRequest request = _mapper.Map<CreateAracCommandRequest>(parac);
             CreateAracCommandResponse response = await _mediatR.Send(request);
             if (response.result == true)
-                return Created("~api/Araclar/", parac);
+                return Created($"Araclar/{response.objectId}", null);
             else
                 return BadRequest();
         }
         [Route("Araclar")]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]AracGuncelleVM guncelleVM)
+        public async Task<IActionResult> Put([FromBody] AracGuncelleVM guncelleVM)
         {
             UpdateAracCommandRequest request = _mapper.Map<UpdateAracCommandRequest>(guncelleVM);
             UpdateAracCommandResponse response = await _mediatR.Send(request);
-            return Ok(response.result);
+            if (response.result == true)
+            {
+                return Created($"Araclar/{response.objectId}", null);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [Route("Araclar/{AracId}")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid AracId)
+        {
+            DeleteAracCommandRequest deleteRequest = new() { AracId = AracId };
+            DeleteAracCommandResponse deleteResponse = await _mediatR.Send(deleteRequest);
+            if(deleteResponse.Result == true)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

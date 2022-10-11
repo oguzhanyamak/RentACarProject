@@ -9,5 +9,6 @@ namespace RentACarProject.Application.Features.Commands.Arac.UpdateArac
     public class UpdateAracCommandResponse
     {
         public bool result { get; set; }
+        public string objectId { get; set; }
     }
 }

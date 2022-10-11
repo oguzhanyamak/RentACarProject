@@ -8,6 +8,6 @@ namespace RentACarProject.Application.Features.Commands.Kullanici.CreateKullanic
 {
     public class CreateKullaniciCommandResponse
     {
-        public bool result { get; set; }
+        public object result { get; set; }
     }
 }

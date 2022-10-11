@@ -9,5 +9,6 @@ namespace RentACarProject.Application.Features.Commands.Sube.CreateSube
     public class CreateSubeCommandResponse 
     {
         public bool result { get; set; }
+        public string retUrl { get; set; }
     }
 }

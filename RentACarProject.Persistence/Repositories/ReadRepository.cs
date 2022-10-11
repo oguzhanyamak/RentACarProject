@@ -23,22 +23,53 @@ namespace RentACarProject.Persistence.Repositories
 
         public IEnumerable<T> GetAll(bool tracking = true)
         {
-            return _context.Set<T>().AsNoTracking().ToList();
+            if (tracking == true)
+            {
+                return _context.Set<T>().AsNoTracking().ToList();
+            }
+            else
+            {
+                return _context.Set<T>().ToList();
+            }
+
         }
 
         public T GetById(string id, bool tracking = true)
         {
-            return _context.Set<T>().AsNoTracking().FirstOrDefault(data => data.Id == Guid.Parse(id));
+            if (tracking == true)
+            {
+                return _context.Set<T>().AsNoTracking().FirstOrDefault(data => data.Id == Guid.Parse(id));
+            }
+            else
+            {
+                return _context.Set<T>().FirstOrDefault(data => data.Id == Guid.Parse(id));
+            }
+
         }
 
         public T GetSingle(Expression<Func<T, bool>> method, bool tracking = true)
         {
-            return _context.Set<T>().AsNoTracking().FirstOrDefault(method);
+            if (tracking == true)
+            {
+                return _context.Set<T>().AsNoTracking().FirstOrDefault(method);
+            }
+            else
+            {
+                return _context.Set<T>().FirstOrDefault(method);
+            }
         }
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true)
         {
-            return _context.Set<T>().AsNoTracking().Where(method);
+            if(tracking == true)
+            {
+                return _context.Set<T>().AsNoTracking().Where(method);
+            }
+            else
+            {
+                return _context.Set<T>().Where(method);
+            }
+           
         }
     }
 }

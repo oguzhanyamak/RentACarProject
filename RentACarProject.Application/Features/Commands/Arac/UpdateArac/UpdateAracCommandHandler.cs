@@ -25,10 +25,12 @@ namespace RentACarProject.Application.Features.Commands.Arac.UpdateArac
             Domain.Entites.Arac arac = await _aracReadAsyncRepository.GetByIdAsync(request.AracId.ToString());
             arac.SaatUcreti = request.SaatUcreti;
             bool res = _aracWriteRepository.Update(arac);
-            await _aracWriteAsyncRepository.SaveAsync();
+            int res1 = await _aracWriteAsyncRepository.SaveAsync();
+            res = (res == true && res1 == 1) ? true : false;
             return new()
             {
                  result = res,
+                 objectId = arac.Id.ToString()
             };
         }
     }

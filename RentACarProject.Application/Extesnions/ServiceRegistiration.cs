@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,6 @@ namespace RentACarProject.Application.Extesnions
             var assm = Assembly.GetExecutingAssembly(); //çalışılan assembly (katman) i getirir
             services.AddMediatR(assm);
             services.AddAutoMapper(assm);
-
             return services;
         }
     }

@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RentACarProject.Domain.Entites;
+using RentACarProject.Domain.Entites.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace RentACarProject.Persistence.Context
 {
-    public class RentACarDbContext : DbContext
+    public class RentACarDbContext : IdentityDbContext<AppUser,AppRole,string>
     {
-        public RentACarDbContext(DbContextOptions options): base(options)
+        public RentACarDbContext(DbContextOptions<RentACarDbContext> options):base(options)
         {
         }
 
         public DbSet<Arac> Araclar { get; set; }
-        public DbSet<Kullanici> Kullanicilar { get; set; }
+        public DbSet<UserBio> UserBios { get; set; }
         public DbSet<Siparis> Siparisler { get; set; }
         public DbSet<Sube> Subeler { get; set; }
         public DbSet<KullaniciSiparis> KullaniciSiparis { get; set; }
@@ -28,7 +30,8 @@ namespace RentACarProject.Persistence.Context
             
             modelBuilder.Entity<KullaniciSiparis>().HasKey(i => new { i.SiparisId, i.KullaniciId });
             modelBuilder.Entity<KullaniciSiparis>().HasOne(i => i.Siparis).WithMany(i => i.KullaniciSiparis).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<KullaniciSiparis>().HasOne(i => i.Kullanici).WithMany(i => i.KullaniciSiparis).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<KullaniciSiparis>().HasOne(i => i.AppUser).WithMany(i => i.KullaniciSiparis).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<AppUser>().HasOne(i => i.UserBio).WithOne(i => i.AppUser).HasForeignKey<UserBio>(i => i.AppUserId);
 
         }
     }

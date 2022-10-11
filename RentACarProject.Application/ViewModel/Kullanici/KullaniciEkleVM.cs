@@ -8,6 +8,9 @@ namespace RentACarProject.Application.ViewModel.Kullanici
 {
     public class KullaniciEkleVM
     {
+        public string Email { get; set; }
+        public string Sifre { get; set; }
+        public string SifreOnay { get; set; }
         public string Ad { get; set; }
         public string Soyad { get; set; }
         public string TC { get; set; }

@@ -15,7 +15,7 @@ namespace RentACarProject.Application.Mapper
         public KullaniciMapper()
         {
             CreateMap<KullaniciEkleVM, CreateKullaniciCommandRequest>().ReverseMap();
-            CreateMap<CreateKullaniciCommandRequest, Kullanici>().ReverseMap();
+            CreateMap<CreateKullaniciCommandRequest, AppUser>().ReverseMap();
         }
     }
 }
