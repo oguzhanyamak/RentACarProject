@@ -24,6 +24,7 @@ namespace RentACarProject.API.Controllers
             _mapper = mapper;
             _mediatR = mediatR;
         }
+        [AllowAnonymous]
         [Route("Kullanicilar")]
         [HttpPost]
         public async Task<IActionResult> Post(KullaniciEkleVM vM)

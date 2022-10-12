@@ -26,6 +26,8 @@ namespace RentACarProject.Application.Features.Commands.Kullanici.CreateKullanic
             var response = await _userService.CreateAsync(vm);
             if (response.Succeeded)
             {
+                //mail gönder
+                
                 return new()
                 {
                     result = true

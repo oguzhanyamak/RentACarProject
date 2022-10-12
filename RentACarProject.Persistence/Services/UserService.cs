@@ -9,8 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace RentACarProject.Persistence.Services
 {
@@ -19,12 +21,14 @@ namespace RentACarProject.Persistence.Services
         UserManager<AppUser> _userManager;
         SignInManager<AppUser> _signInManager;
         readonly RoleManager<AppRole> _roleManager;
+        readonly IMailService _mailService;
 
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IMailService mailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _mailService = mailService;
         }
 
         public async Task<IdentityResult> AddRoleAsync(KullaniciRoleCommandRequest request)
@@ -62,14 +66,17 @@ namespace RentACarProject.Persistence.Services
                 Cadde = model.Cadde,
                 AdresDetay = model.AdresDetay
             };
-
-            IdentityResult result = await _userManager.CreateAsync(new()
+            
+            AppUser user = new()
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = model.Email,
                 UserBio = bio,
-                UserName = model.Email
-            }, model.Sifre);
+                UserName = model.Email,
+                EmailConfirmed = false,
+            };
+            IdentityResult result = await _userManager.CreateAsync(user,model.Sifre);
+            EmailVerification(user);
             return result;
         }
 
@@ -85,6 +92,26 @@ namespace RentACarProject.Persistence.Services
             IdentityResult result = await _userManager.UpdateAsync(user);
 
             await _userManager.UpdateSecurityStampAsync(user);
+            return result;
+        }
+
+        public async void EmailVerification(AppUser user)
+        {
+            string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = HttpUtility.UrlEncode(code);
+            var emailBody = "Please Confirm your Email addres <a href=\"#url#\"> Click Hear ";
+            //https://localhost:7155/Login
+            var callBackUrl = $"https://localhost:7155/Authentication/VerifyEmail/{user.Id}&code={code}";
+
+            var body = emailBody.Replace("#url#",callBackUrl);
+            _mailService.sendEmail(user.Email, body);
+        }
+
+        public async Task<IdentityResult> verify(string id, string code)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            //code = Encoding.UTF8.GetString(Convert.FromBase64String(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
             return result;
         }
     }

@@ -55,6 +55,7 @@ namespace RentACarProject.Persistence.Extensions
             services.AddScoped<ISiparisWriteAsyncRepository, SiparisWriteAsyncRepository>();
             services.AddScoped<ISiparisWriteRepository, SiparisWriteRepository>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IMailService, MailService>();
 
 
 
