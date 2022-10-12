@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
 using RentACarProject.Application.ViewModel.Kullanici;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace RentACarProject.Application.Abstraction.Services
     public interface IUserService
     {
         Task<IdentityResult> CreateAsync(KullaniciEkleVM model);
+        Task<IdentityResult> UpdateAsync(UpdateKullaniciQueryRequest model);
     }
 }

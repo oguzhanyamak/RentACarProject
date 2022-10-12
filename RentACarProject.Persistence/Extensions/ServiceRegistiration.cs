@@ -26,8 +26,9 @@ namespace RentACarProject.Persistence.Extensions
         {
             
             services.AddDbContext<RentACarDbContext>(options => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=rentCar;Integrated Security=True;"));
-            services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<RentACarDbContext>();
+            services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<RentACarDbContext>().AddDefaultTokenProviders();
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAracReadRepositoy, AracReadRepository>();
             services.AddScoped<IAracReadAsyncRepository, AracReadAsyncRepository>();
             services.AddScoped<IAracWriteAsyncRepository, AracWriteAsyncRepository>();
@@ -40,10 +41,7 @@ namespace RentACarProject.Persistence.Extensions
             services.AddScoped<ISiparisReadRepository, SiparisReadRepository>();
             services.AddScoped<ISiparisWriteAsyncRepository, SiparisWriteAsyncRepository>();
             services.AddScoped<ISiparisWriteRepository, SiparisWriteRepository>();
-
-            
-            //services.AddTransient<IAuthService, AuthService>();
-
+            services.AddHttpClient();
         }
     }
 }

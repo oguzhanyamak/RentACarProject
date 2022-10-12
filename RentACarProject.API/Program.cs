@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using RentACarProject.Application.Extesnions;
 using RentACarProject.Domain.Entites;
 using RentACarProject.Domain.Entites.Role;
+using RentACarProject.Infrastructure;
 using RentACarProject.Persistence.Context;
 using RentACarProject.Persistence.Extensions;
 using System.Text;
@@ -18,6 +19,7 @@ builder.Services.AddHealthChecks()
     .AddSqlServer(builder.Configuration.GetConnectionString("MSSQLServer"));
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationRegistiration();
+builder.Services.AddInfrastructureServices();
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Kullanici.CreateKullanici;
+using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
 using RentACarProject.Application.ViewModel.Kullanici;
 
 namespace RentACarProject.API.Controllers
@@ -24,6 +25,15 @@ namespace RentACarProject.API.Controllers
         {
             CreateKullaniciCommandRequest request = _mapper.Map<CreateKullaniciCommandRequest>(vM);
             CreateKullaniciCommandResponse response = await _mediatR.Send(request);
+            return Ok(response);
+        }
+
+        [Route("Kullanicilar")]
+        [HttpPut]
+        public async Task<IActionResult> Put(KullaniciGuncelleVM vm)
+        {
+            UpdateKullaniciQueryRequest request = _mapper.Map<UpdateKullaniciQueryRequest>(vm);
+            UpdateKullaniciQueryResponse response = await _mediatR.Send(request);
             return Ok(response);
         }
     }

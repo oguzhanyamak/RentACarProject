@@ -9,6 +9,6 @@ namespace RentACarProject.Application.Abstraction.Services
 {
     public interface IAuthService
     {
-        Task<Token> LoginAsync(string usernameOrEmail, string password, int accessTokenLifeTime);
+        Task<Application.ViewModel.Token.Token> LoginAsync(string usernameOrEmail, string password, int accessTokenLifeTime);
     }
 }

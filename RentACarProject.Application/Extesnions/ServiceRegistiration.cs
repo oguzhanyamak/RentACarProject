@@ -12,12 +12,11 @@ namespace RentACarProject.Application.Extesnions
 {
     public static class ServiceRegistiration
     {
-        public static IServiceCollection AddApplicationRegistiration(this IServiceCollection services)
+        public static void AddApplicationRegistiration(this IServiceCollection services)
         {
             var assm = Assembly.GetExecutingAssembly(); //çalışılan assembly (katman) i getirir
             services.AddMediatR(assm);
             services.AddAutoMapper(assm);
-            return services;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RentACarProject.Application.Features.Commands.Kullanici.CreateKullanici;
+using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
 using RentACarProject.Application.ViewModel.Kullanici;
 using RentACarProject.Domain.Entites;
 using System;
@@ -16,6 +17,8 @@ namespace RentACarProject.Application.Mapper
         {
             CreateMap<KullaniciEkleVM, CreateKullaniciCommandRequest>().ReverseMap();
             CreateMap<CreateKullaniciCommandRequest, AppUser>().ReverseMap();
+
+            CreateMap<KullaniciGuncelleVM, UpdateKullaniciQueryRequest>().ReverseMap();
         }
     }
 }
