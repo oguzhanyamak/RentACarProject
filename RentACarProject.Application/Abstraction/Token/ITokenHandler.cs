@@ -9,6 +9,6 @@ namespace RentACarProject.Application.Abstraction.Token
 {
     public interface ITokenHandler
     {
-        Application.ViewModel.Token.Token CreateAccessToken(AppUser user,int minute = 5);
+        Task<Application.ViewModel.Token.Token> CreateAccessToken(AppUser user,int minute = 5);
     }
 }

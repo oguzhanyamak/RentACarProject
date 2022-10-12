@@ -21,6 +21,7 @@
   <ItemGroup>
     <Folder Include="Features\Commands\Sube\RemoveSube\" />
     <Folder Include="Features\Queries\Kullanici\" />
+    <Folder Include="ViewModel\ResponseModel\" />
   </ItemGroup>
 
 </Project>

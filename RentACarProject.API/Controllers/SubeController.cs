@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Sube.CreateSube;
@@ -14,7 +15,7 @@ using RentACarProject.Domain.Entites;
 
 namespace RentACarProject.API.Controllers
 {
-
+    [Authorize(Roles ="Admin,TeknikEkip")]
     [ApiController]
     public class SubeController : ControllerBase
     {
@@ -61,6 +62,7 @@ namespace RentACarProject.API.Controllers
             return Ok(response);
         }
 
+        
         [Route("Subeler/{SubeId}")]
         [HttpGet]
         public async Task<IActionResult> GetById(Guid SubeId)
@@ -70,6 +72,7 @@ namespace RentACarProject.API.Controllers
             return Ok(response);
 
         }
+        [AllowAnonymous]
         [Route("Subeler/{SubeId}/Araclar")]
         [HttpGet]
         public async Task<IActionResult> GetAraclar(Guid SubeId)

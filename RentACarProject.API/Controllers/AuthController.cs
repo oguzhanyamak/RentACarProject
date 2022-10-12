@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Auth;
@@ -6,6 +7,7 @@ using RentACarProject.Application.ViewModel.Auth;
 
 namespace RentACarProject.API.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     public class AuthController : ControllerBase
     {

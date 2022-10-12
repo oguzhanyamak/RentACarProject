@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Siparis.Create;
@@ -7,6 +8,7 @@ using RentACarProject.Application.ViewModel.Siparis;
 
 namespace RentACarProject.API.Controllers
 {
+    [Authorize(Roles = "Admin,TeknikEkip")]
     [Route("Siparisler")]
     [ApiController]
     public class SiparisController : ControllerBase

@@ -30,8 +30,13 @@ namespace RentACarProject.Persistence.Services
         {
             AppUser user = await _userManager.FindByEmailAsync(usernameOrEmail);
             SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+            Token token = new();
             //...Authorize
-            Token token = _tokenHandler.CreateAccessToken(user);
+            if (result.Succeeded) //Authentication başarılı!
+            {
+                token = await _tokenHandler.CreateAccessToken(user);
+                return token;
+            }
             return token;
         }
     }

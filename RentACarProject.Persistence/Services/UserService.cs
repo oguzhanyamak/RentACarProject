@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RentACarProject.Application.Abstraction.Services;
+using RentACarProject.Application.Features.Commands.Kullanici.KullaniciRole;
 using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
 using RentACarProject.Application.ViewModel.Kullanici;
 using RentACarProject.Domain.Entites;
+using RentACarProject.Domain.Entites.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,36 @@ namespace RentACarProject.Persistence.Services
     public class UserService : IUserService
     {
         UserManager<AppUser> _userManager;
+        SignInManager<AppUser> _signInManager;
+        readonly RoleManager<AppRole> _roleManager;
 
-        public UserService(UserManager<AppUser> userManager)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
+        }
+
+        public async Task<IdentityResult> AddRoleAsync(KullaniciRoleCommandRequest request)
+        {
+            AppRole role = await _roleManager.FindByIdAsync(request.RoleId);
+            AppUser user = await _userManager.FindByIdAsync(request.KullaniciId);
+            IdentityResult result = await _userManager.AddToRoleAsync(user,role.Name);
+            return result;
+        }
+
+        public async Task<IdentityResult> ChangePassword(string email,string oldPassword,string newPassword)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            IdentityResult result = new();
+            if (await _userManager.CheckPasswordAsync(user, oldPassword))
+            {
+                result = await _userManager.ChangePasswordAsync(user,oldPassword, newPassword);
+                 
+                await _userManager.UpdateSecurityStampAsync(user);
+                return result;
+            }
+            return result;
         }
 
         public async Task<IdentityResult> CreateAsync(KullaniciEkleVM model)

@@ -1,13 +1,18 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Features.Commands.Kullanici.CreateKullanici;
+using RentACarProject.Application.Features.Commands.Kullanici.KullaniciRole;
 using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
+using RentACarProject.Application.Features.Commands.Kullanici.UpdatePassword;
 using RentACarProject.Application.ViewModel.Kullanici;
+using System.Data;
 
 namespace RentACarProject.API.Controllers
 {
+    [Authorize(Roles = "Admin,TeknikEkip")]
     [ApiController]
     public class KullaniciController : ControllerBase
     {
@@ -36,5 +41,24 @@ namespace RentACarProject.API.Controllers
             UpdateKullaniciQueryResponse response = await _mediatR.Send(request);
             return Ok(response);
         }
+
+        [Route("Kullanicilar/SifreGuncelle")]
+        [HttpPut]
+        public async Task<IActionResult> put(string email,string oldPassword,string newPassword)
+        {
+            UpdatePasswordQueryRequest request = new UpdatePasswordQueryRequest() { email = email, newPassword = newPassword, oldPassword = oldPassword };
+            UpdatePasswordQueryResponse response = await _mediatR.Send(request);
+            return Ok(response);
+        }
+
+        [Route("Kullanicilar/RolAta")]
+        [HttpPut]
+        public async Task<IActionResult> UserRole(KullaniciRoleVM model)
+        {
+            KullaniciRoleCommandRequest request = _mapper.Map<KullaniciRoleCommandRequest>(model);
+            KullaniciRoleCommandResponse response = await _mediatR.Send(request);
+            return Ok(response);
+        }
+
     }
 }

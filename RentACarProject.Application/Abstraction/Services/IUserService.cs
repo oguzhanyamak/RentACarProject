@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RentACarProject.Application.Features.Commands.Kullanici.KullaniciRole;
 using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
 using RentACarProject.Application.ViewModel.Kullanici;
 using System;
@@ -13,5 +14,7 @@ namespace RentACarProject.Application.Abstraction.Services
     {
         Task<IdentityResult> CreateAsync(KullaniciEkleVM model);
         Task<IdentityResult> UpdateAsync(UpdateKullaniciQueryRequest model);
+        Task<IdentityResult> ChangePassword(string email,string oldPassword,string newPassword);
+        Task<IdentityResult> AddRoleAsync(KullaniciRoleCommandRequest request);
     }
 }

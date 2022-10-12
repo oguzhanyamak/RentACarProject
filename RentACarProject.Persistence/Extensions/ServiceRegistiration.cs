@@ -26,7 +26,20 @@ namespace RentACarProject.Persistence.Extensions
         {
             
             services.AddDbContext<RentACarDbContext>(options => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=rentCar;Integrated Security=True;"));
-            services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<RentACarDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<AppUser, AppRole>(_ =>
+            {
+                _.Password.RequiredLength = 5; //En az kaç karakterli olması gerektiğini belirtiyoruz.
+                _.Password.RequireNonAlphanumeric = false; //Alfanumerik zorunluluğunu kaldırıyoruz.
+                _.Password.RequireLowercase = false; //Küçük harf zorunluluğunu kaldırıyoruz.
+                _.Password.RequireUppercase = false; //Büyük harf zorunluluğunu kaldırıyoruz.
+                _.Password.RequireDigit = false; //0-9 arası sayısal karakter zorunluluğunu kaldırıyoruz.
+
+                _.User.RequireUniqueEmail = true;
+                _.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._@+"; //Kullanıcı adında geçerli olan karakterleri belirtiyoruz.
+            }).AddEntityFrameworkStores<RentACarDbContext>().AddDefaultTokenProviders();
+
+
+
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAracReadRepositoy, AracReadRepository>();
@@ -41,6 +54,11 @@ namespace RentACarProject.Persistence.Extensions
             services.AddScoped<ISiparisReadRepository, SiparisReadRepository>();
             services.AddScoped<ISiparisWriteAsyncRepository, SiparisWriteAsyncRepository>();
             services.AddScoped<ISiparisWriteRepository, SiparisWriteRepository>();
+            services.AddScoped<IRoleService, RoleService>();
+
+
+
+
             services.AddHttpClient();
         }
     }
