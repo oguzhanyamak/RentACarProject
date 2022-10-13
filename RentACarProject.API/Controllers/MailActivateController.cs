@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentACarProject.Application.Abstraction.Services;
+using System.Web;
 
 namespace RentACarProject.API.Controllers
 {
@@ -18,7 +19,7 @@ namespace RentACarProject.API.Controllers
         }
 
         [HttpGet]
-        [Route("Authentication/VerifyEmail/")]
+        [Route("Authentication/VerifyEmail")]
         public async Task<IActionResult> verify([FromQuery]string userId,string code)
         {
             if(userId == null || code == null)

@@ -7,6 +7,8 @@
 * https://learn.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
 
 
+https://www.nuget.org/packages/WatchDog.NET/1.2.0
+https://github.com/IzyPro/WatchDog
 
 
 https://www.nuget.org/packages/RestSharp ile 

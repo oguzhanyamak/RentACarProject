@@ -11,6 +11,7 @@ using RentACarProject.Persistence.Context;
 using RentACarProject.Persistence.Extensions;
 using System.Text;
 using System.Text.Json.Serialization;
+using WatchDog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,16 @@ builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Re
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddWatchDogServices(opt =>
+{
+    opt.IsAutoClear = true;
+    opt.ClearTimeSchedule = WatchDog.src.Enums.WatchDogAutoClearScheduleEnum.Weekly;
+    opt.SetExternalDbConnString = builder.Configuration.GetConnectionString("MSSQLServerLog");
+    opt.SqlDriverOption = WatchDog.src.Enums.WatchDogSqlDriverEnum.MSSQL;
+
+});
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,5 +71,20 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseWatchDogExceptionLogger();
+app.UseWatchDog(opt =>
+{
+    opt.WatchPagePassword = "admin";
+    opt.WatchPageUsername = "password";
+});
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//        name: "default",
+//        pattern:
+//        );
+//});
 
 app.Run();

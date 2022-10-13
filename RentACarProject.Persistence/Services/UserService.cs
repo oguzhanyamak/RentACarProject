@@ -3,6 +3,7 @@ using RentACarProject.Application.Abstraction.Services;
 using RentACarProject.Application.Features.Commands.Kullanici.KullaniciRole;
 using RentACarProject.Application.Features.Commands.Kullanici.UpdateKullanici;
 using RentACarProject.Application.ViewModel.Kullanici;
+using RentACarProject.Application.ViewModel.Token;
 using RentACarProject.Domain.Entites;
 using RentACarProject.Domain.Entites.Role;
 using System;
@@ -99,9 +100,10 @@ namespace RentACarProject.Persistence.Services
         {
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = HttpUtility.UrlEncode(code);
+            string userId = HttpUtility.UrlEncode(user.Id);
             var emailBody = "Please Confirm your Email addres <a href=\"#url#\"> Click Hear ";
             //https://localhost:7155/Login
-            var callBackUrl = $"https://localhost:7155/Authentication/VerifyEmail/{user.Id}&code={code}";
+            var callBackUrl = $"https://localhost:7155/Authentication/VerifyEmail?userId={userId}&code={code}";
 
             var body = emailBody.Replace("#url#",callBackUrl);
             _mailService.sendEmail(user.Email, body);
@@ -109,8 +111,9 @@ namespace RentACarProject.Persistence.Services
 
         public async Task<IdentityResult> verify(string id, string code)
         {
+            id = HttpUtility.UrlDecode(id);
             var user = await _userManager.FindByIdAsync(id);
-            //code = Encoding.UTF8.GetString(Convert.FromBase64String(code));
+            code = HttpUtility.UrlDecode(code);
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return result;
         }
