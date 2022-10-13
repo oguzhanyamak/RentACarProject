@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using RentACarProject.Application.Exceptions;
 using RentACarProject.Application.Repositories.Arac;
 using RentACarProject.Application.Repositories.Sube;
 using RentACarProject.Domain.Entites;
@@ -28,8 +29,19 @@ namespace RentACarProject.Application.Features.Commands.Arac.CreateArac
 
         public async Task<CreateAracCommandResponse> Handle(CreateAracCommandRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entites.Arac arac = _mapper.Map<Domain.Entites.Arac>(request);
+            
+            if(request.SubeId == Guid.Empty || request.Plaka == "" || request.Plaka == String.Empty ||request.Plaka == null)
+            {
+                throw new BadRequestException("Id veya Plaka bos Gecilemez");
+            }
+
             Domain.Entites.Sube sube = await _subeReadAsyncRepository.GetSingleAsync(i => i.Id == request.SubeId);
+            if(sube is null)
+            {
+                throw new NotFoundException($" böyle bir sube yok : {request.SubeId} ");
+            }
+
+            Domain.Entites.Arac arac = _mapper.Map<Domain.Entites.Arac>(request);
             arac.Sube = sube;
             arac.Id = Guid.NewGuid();
             bool res = await _aracWriteAsyncRepository.AddAsync(arac);

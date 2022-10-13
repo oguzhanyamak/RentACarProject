@@ -15,7 +15,7 @@ using RentACarProject.Domain.Entites;
 
 namespace RentACarProject.API.Controllers
 {
-    [Authorize(Roles ="Admin,TeknikEkip")]
+    //[Authorize(Roles ="Admin,TeknikEkip")]
     [ApiController]
     public class SubeController : ControllerBase
     {

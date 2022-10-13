@@ -34,5 +34,11 @@ namespace RentACarProject.Persistence.Context
             modelBuilder.Entity<AppUser>().HasOne(i => i.UserBio).WithOne(i => i.AppUser).HasForeignKey<UserBio>(i => i.AppUserId);
 
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=rentCar;Integrated Security=True;");
+        }
     }
 }

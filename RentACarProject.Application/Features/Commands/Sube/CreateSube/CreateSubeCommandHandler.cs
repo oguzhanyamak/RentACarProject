@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using RentACarProject.Application.Exceptions;
 using RentACarProject.Application.Repositories.Sube;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace RentACarProject.Application.Features.Commands.Sube.CreateSube
 
         public async Task<CreateSubeCommandResponse> Handle(CreateSubeCommandRequest request, CancellationToken cancellationToken)
         {
+            if(request.SubeAdi == String.Empty || request.SubeAdi == "" || request.SubeAdi == null)
+            {
+                throw new BadRequestException("Sube Adi Bos Gecilemez");
+            }
             var sube = _mapper.Map<Domain.Entites.Sube>(request);
             sube.Id = Guid.NewGuid();
             bool res = await _subeWriteAsyncRepository.AddAsync(sube);

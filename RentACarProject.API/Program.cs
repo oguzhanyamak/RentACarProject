@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RentACarProject.API.Extensions;
 using RentACarProject.Application.Extesnions;
 using RentACarProject.Domain.Entites;
 using RentACarProject.Domain.Entites.Role;
@@ -31,9 +32,8 @@ builder.Services.AddWatchDogServices(opt =>
 {
     opt.IsAutoClear = true;
     opt.ClearTimeSchedule = WatchDog.src.Enums.WatchDogAutoClearScheduleEnum.Weekly;
-    opt.SetExternalDbConnString = builder.Configuration.GetConnectionString("MSSQLServerLog");
+    opt.SetExternalDbConnString = builder.Configuration.GetConnectionString("MSSQLServer");
     opt.SqlDriverOption = WatchDog.src.Enums.WatchDogSqlDriverEnum.MSSQL;
-
 });
 
 builder.Services.AddAuthentication(options =>
@@ -79,12 +79,5 @@ app.UseWatchDog(opt =>
     opt.WatchPageUsername = "password";
 });
 
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//        name: "default",
-//        pattern:
-//        );
-//});
-
+app.AddGlobalErrorHandler();
 app.Run();

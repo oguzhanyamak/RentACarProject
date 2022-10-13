@@ -17,7 +17,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RentACarProject.API.Controllers
 {
-    [Authorize(Roles ="Admin,TeknikEkip")]
+    //[Authorize(Roles ="Admin,TeknikEkip")]
     [ApiController]
     public class AracController : ControllerBase
     {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentACarProject.Application.Abstraction.Services;
+using RentACarProject.Application.Exceptions;
 using RentACarProject.Application.ViewModel.Kullanici;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace RentACarProject.Application.Features.Commands.Kullanici.CreateKullanic
         }
         public async Task<CreateKullaniciCommandResponse> Handle(CreateKullaniciCommandRequest request, CancellationToken cancellationToken)
         {
+
+            throw new NotFoundException("Hatalı giriş");
             KullaniciEkleVM vm = _mapper.Map<KullaniciEkleVM>(request);
             var response = await _userService.CreateAsync(vm);
             if (response.Succeeded)
